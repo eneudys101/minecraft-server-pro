@@ -1,0 +1,35 @@
+services:
+  bungeecord:
+    image: itzg/bungeecord
+    ports:
+      - "25577:25577"
+    volumes:
+      - ./bungeecord/config.yml:/server/config.yml
+    networks:
+      - minecraft-network
+
+  minecraft-survival:
+    build: ./minecraft-survival
+    environment:
+      EULA: "TRUE"
+      MODE: survival
+      ONLINE_MODE: "FALSE"
+    volumes:
+      - ./minecraft-survival/data:/data
+    networks:
+      - minecraft-network
+
+  minecraft-creative:
+    build: ./minecraft-creative
+    environment:
+      EULA: "TRUE"
+      MODE: creative
+      ONLINE_MODE: "FALSE"
+    volumes:
+      - ./minecraft-creative/data:/data
+    networks:
+      - minecraft-network
+
+networks:
+  minecraft-network:
+    driver: bridge
